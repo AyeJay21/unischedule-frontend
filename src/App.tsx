@@ -4,6 +4,7 @@ import HomePage from "./HomePage";
 import SignUp from "./SignUp";
 import SignIn from "./SignIn";
 import TestSecurity from "./testSecurity";
+import TimeTable from "./TimeTable";
 import ErrorPage from "./errorPage";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path="/signIn" element={<SignIn />} />
         <Route path="/login" element={<TestSecurity />} />
         <Route path="/error" element={<ErrorPage />} />
+        <Route path="/timeTable" element={<TimeTable />} />
       </Routes>
     </Router>
   );
