@@ -1,7 +1,8 @@
-import React, { useState, JSX } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import "./SignIn.css";
 
-export default function SignIn(): JSX.Element {
+export default function SignIn() {
   const [user, setUser] = useState({ email: "", password: "" });
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -45,10 +46,10 @@ export default function SignIn(): JSX.Element {
   };
 
   return (
-    <div>
-      <h1>Sign In</h1>
+    <div className="page-container">
+      <h1>Sign In</h1> {/* Überschrift oben */}
       {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="form-container">
         <input
           type="text"
           name="email"
@@ -65,6 +66,9 @@ export default function SignIn(): JSX.Element {
         />
         <button type="submit">Submit</button>
       </form>
+      <Link to="/signUp" className="signup-link">
+        Don't have an account? Sign Up
+      </Link> {/* Link unten */}
     </div>
   );
 }

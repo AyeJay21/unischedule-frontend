@@ -21,36 +21,54 @@ body.dark-mode {
 body {
     background-color: var(--background-color);
     color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    transition: all 0.3s ease; /* Sanfter Übergang zwischen Light und Dark Mode */
 }
 
 .darkModeContainer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 20px 40px; /* Abstand von den Rändern und nach unten verschieben */
+    margin: 20px 40px;
 }
 
 .timeTable {
     margin: 0;
+    font-size: 24px;
+    font-weight: bold;
 }
 
 .darkModeButton {
     padding: 10px 20px;
     border: none;
     cursor: pointer;
+    background-color: var(--table-cell-background-color);
+    color: var(--text-color);
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.darkModeButton:hover {
+    background-color: var(--text-color);
+    color: var(--table-cell-background-color);
 }
 
 .table-container {
-    overflow-x: auto; /* Ermöglicht horizontales Scrollen bei Bedarf */
-    margin: 20px 40px; /* Abstand von den Rändern */
+    overflow-x: auto;
+    margin: 20px 40px;
+    background-color: var(--background-color);
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .table {
     width: 100%;
-    max-width: 100%; /* Begrenzung der maximalen Breite auf 100% des Containers */
+    max-width: 100%;
     text-align: center;
     border-collapse: collapse;
-    table-layout: fixed; /* Erzwingt gleiche Spaltenbreiten */
+    table-layout: fixed;
 }
 
 .table th,
@@ -58,29 +76,65 @@ body {
     border: 1px solid var(--table-border-color);
     background-color: var(--table-cell-background-color);
     padding: 10px;
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .table th:first-child,
 .table td:first-child {
-    width: 10%; /* Kleinere Breite für die "Time"-Spalte */
+    width: 10%;
+    font-weight: bold;
 }
 
 .table th:not(:first-child),
 .table td:not(:first-child) {
-    width: 18%; /* Gleiche Breite für die Wochentage */
+    width: 22.5%; /* Anpassung, um 90% für die Tage und 10% für die Zeit zu erreichen */
 }
 
+.table td {
+    background-color: var(--table-cell-background-color, #f5f5f5); /* Fallback für Light Mode */
+}
+
+.dark-mode .table td {
+    background-color: var(--table-cell-background-color, #333); /* Fallback für Dark Mode */
+}
+
+/* Hover-Effekt für Zellen (optional, für bessere Interaktivität) */
+.table td:hover {
+    background-color: color-mix(in srgb, var(--table-cell-background-color) 90%, var(--text-color) 10%);
+    cursor: pointer;
+}
 .modal {
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
-    right: auto;
-    bottom: auto;
     transform: translate(-50%, -50%);
     background-color: var(--modal-background-color);
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+    padding: 24px; /* Etwas mehr Padding für ein moderneres Gefühl */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Tiefere Schatten für 3D-Effekt */
+    z-index: 1010;
+    border-radius: 12px; /* Runder als vorher für modernes Design */
+    max-width: 90%;
+    width: 420px; /* Etwas breiter für mehr Platz */
+    min-height: 300px; /* Mehr Höhe für besseres Layout */
+    overflow: auto;
+    color: var(--text-color);
+    backdrop-filter: blur(5px); /* Optional: Glas-Effekt für modernen Look */
+    background: linear-gradient(135deg, var(--modal-background-color), rgba(255, 255, 255, 0.1)); /* Subtiles Gradient */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtiler Rahmen */
+    animation: slideIn 0.3s ease-out; /* Animation hinzufügen */
+}
+
+/* Animation für den Modal-Eintritt */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
 }
 
 .overlay {
@@ -90,9 +144,69 @@ body {
     right: 0;
     bottom: 0;
     background-color: var(--overlay-background-color);
-    z-index: 999;
+    z-index: 1000;
+    backdrop-filter: blur(2px); /* Leichter Glas-Effekt für den Hintergrund */
+    animation: fadeIn 0.3s ease-out; /* Animation für den Overlay */
 }
 
+/* Animation für den Overlay */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Stile für den Inhalt im Modal */
+.modal h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-color);
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.modal p {
+    margin: 12px 0;
+    font-size: 16px;
+    color: var(--text-color);
+    opacity: 0.8; /* Subtiler Text für modernen Look */
+}
+
+.modal button {
+    padding: 12px 24px;
+    margin-right: 12px;
+    border: none;
+    border-radius: 8px; /* Runder als vorher */
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background-color: var(--table-cell-background-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtiler Schatten für Buttons */
+}
+
+.modal button:hover {
+    background-color: var(--text-color);
+    color: var(--table-cell-background-color);
+    transform: translateY(-2px); /* Leichter Aufwärtseffekt */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Styling für den SketchPicker (falls nötig, kann angepasst werden) */
+.modal .sketch-picker {
+    margin: 20px 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
 /* Responsive Design */
 @media (max-width: 768px) {
     .darkModeContainer {
@@ -107,6 +221,7 @@ body {
     .table th,
     .table td {
         padding: 5px;
+        font-size: 14px;
     }
 
     .darkModeButton {
@@ -125,4 +240,68 @@ body {
     .darkModeButton {
         padding: 5px 10px;
     }
+
+    .modal {
+        max-width: 80%;
+        width: auto;
+        padding: 15px;
+    }
+}
+
+/* Moderne Styling für den SketchPicker im Modal */
+.modal .sketch-picker {
+    padding: 16px !important;
+    border-radius: 8px !important;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1) !important;
+    background: linear-gradient(135deg, var(--modal-background-color), rgba(255, 255, 255, 0.05)) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    font-family: 'Poppins', sans-serif !important;
+    width: 90% !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Farbplatten (Swatches) */
+.modal .sketch-picker .swatch {
+    border-radius: 4px !important;
+    margin: 4px !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.modal .sketch-picker .swatch:hover {
+    transform: scale(1.1) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Schieberegler (Hue und Alpha) */
+.modal .sketch-picker .hue-horizontal,
+.modal .sketch-picker .alpha-checkerboard {
+    border-radius: 4px !important;
+    margin: 12px 0 !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Eingabefelder (Hex, RGB, Alpha) */
+.modal .sketch-picker input {
+    border-radius: 4px !important;
+    border: 1px solid var(--table-border-color) !important;
+    padding: 8px !important;
+    font-size: 14px !important;
+    color: var(--text-color) !important;
+    background-color: var(--table-cell-background-color) !important;
+    transition: all 0.3s ease !important;
+}
+
+.modal .sketch-picker input:focus {
+    border-color: #2196F3 !important;
+    box-shadow: 0 0 8px rgba(33, 150, 243, 0.3) !important;
+    outline: none !important;
+}
+
+/* Labels und Texte */
+.modal .sketch-picker label {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    color: var(--text-color) !important;
+    opacity: 0.8 !important;
 }

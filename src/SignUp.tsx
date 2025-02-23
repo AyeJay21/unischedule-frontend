@@ -1,7 +1,8 @@
-import React, { JSX } from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import "./SignUp.css";
 
-function SignUp(): JSX.Element {
+function SignUp() {
   const [user, setUser] = useState({ email: "", password: "" });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -24,9 +25,9 @@ function SignUp(): JSX.Element {
   };
 
   return (
-    <div>
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
+    <div className="page-container">
+      <h1>Sign Up</h1> {/* Überschrift oben */}
+      <form onSubmit={handleSubmit} className="form-container">
         <input
           type="text"
           name="email"
@@ -43,6 +44,9 @@ function SignUp(): JSX.Element {
         />
         <button type="submit">Submit</button>
       </form>
+      <Link to="/signIn" className="signup-link">
+        Already have an account? Sign In
+      </Link> {/* Link unten */}
     </div>
   );
 }

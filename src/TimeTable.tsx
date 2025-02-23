@@ -5,7 +5,7 @@ import "./TimeTable.css";
 
 type CellData = {
   subject: string;
-  color: string;
+  color: string; // Jede Zelle hat jetzt ihre eigene Farbe
 };
 
 type Day = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday";
@@ -291,7 +291,7 @@ const TimeTable = () => {
         : parseRgba(cellColor);
       setColor(rgbaColor);
       setIsModalOpen(true);
-    }, milliSecond); // 100ms for long press
+    }, milliSecond);
   };
 
   // Clear the timer
@@ -307,11 +307,13 @@ const TimeTable = () => {
     if (!isModalOpen) {
       const subject = prompt("Enter subject:");
       if (subject !== null) {
+        // Wenn das Fach bereits existiert, hole die Standardfarbe, sonst behalte die aktuelle Zellenfarbe
+        const defaultColor = isSubjectAdded(subject) || schedule[day][hour].color;
         setSchedule((prev) => ({
           ...prev,
           [day]: {
             ...prev[day],
-            [hour]: { ...prev[day][hour], subject },
+            [hour]: { subject, color: defaultColor },
           },
         }));
       }
@@ -323,7 +325,6 @@ const TimeTable = () => {
     setColor(color.rgb);
   };
 
-
   // Save the color
   const handleSave = () => {
     if (selectedDay && selectedHour) {
@@ -334,7 +335,7 @@ const TimeTable = () => {
           ...prev[selectedDay],
           [selectedHour]: {
             ...prev[selectedDay][selectedHour],
-            color: rgbaString,
+            color: rgbaString, // Speichere die Farbe unabhängig für diese Zelle
           },
         },
       }));
@@ -342,23 +343,22 @@ const TimeTable = () => {
     setIsModalOpen(false);
   };
 
-
   // Dark Mode
   const toggleDarkMode = () => {
     setIsDarkMode((prevMode) => !prevMode);
     document.body.classList.toggle("dark-mode", !isDarkMode);
   };
 
-  // Check if subject is already added
+  // Check if subject is already added and return its default color if it exists
   const isSubjectAdded = (subject: string): string | null => {
     for (const day of Object.keys(schedule) as Day[]) {
       for (const hour of Object.keys(schedule[day]) as Hour[]) {
-        if (schedule[day][hour].subject === subject) {
-          return schedule[day][hour].color;
+        if (schedule[day][hour].subject === subject && schedule[day][hour].subject.trim() !== "") {
+          return schedule[day][hour].color; // Gibt die Farbe des ersten gefundenen Eintrags zurück
         }
       }
     }
-    return null;
+    return null; // Keine Farbe gefunden, neue Zelle bekommt Standardfarbe
   };
 
   // Render
@@ -399,7 +399,7 @@ const TimeTable = () => {
                       backgroundColor:
                         schedule[day][hour].subject.trim() === ""
                           ? "var(--table-cell-background-color)"
-                          : isSubjectAdded(schedule[day][hour].subject) || schedule[day][hour].color,
+                          : schedule[day][hour].color, // Verwende die Farbe der spezifischen Zelle
                     }}
                   >
                     {schedule[day][hour].subject}
@@ -417,20 +417,37 @@ const TimeTable = () => {
         contentLabel="Edit Schedule"
         className="modal"
         overlayClassName="overlay"
+        style={{
+          content: {
+            maxWidth: "90%",
+            width: "420px",
+            minHeight: "300px",
+            overflow: "auto",
+          },
+          overlay: {
+            zIndex: 1000,
+          },
+        }}
       >
         <h2>Edit Schedule</h2>
         <p>
           Day: {selectedDay}, Hour: {selectedHour}
         </p>
         <SketchPicker color={color} onChange={handleColorChange} />
-        <button onClick={handleSave}>Save</button>
-        <button onClick={() => setIsModalOpen(false)}>Cancel</button>
+        <div
+          style={{
+            marginTop: "24px",
+            display: "flex",
+            justifyContent: "center",
+            gap: "12px",
+          }}
+        >
+          <button onClick={handleSave}>Save</button>
+          <button onClick={() => setIsModalOpen(false)}>Cancel</button>
+        </div>
       </Modal>
     </div>
   );
 };
 
 export default TimeTable;
-
-//TODO
-//If subject gets added a second time color it like the first one

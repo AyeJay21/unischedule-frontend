@@ -1,16 +1,17 @@
-import React, { JSX } from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
+import "./HomePage.css";
 
-export default function HomePage(): JSX.Element {
-    return (
-        <div>
-            <h1>Home Page</h1>
-            <nav>
-                <ul style={{ listStyleType: "none", display: "flex", justifyContent: "space-around" }}>
-                    <li><Link to="/signUp">Sign Up</Link></li>
-                    <li><Link to="/signIn">Sign In</Link></li>
-                </ul>
-            </nav>
-        </div>
-    );
+export default function HomePage() {
+  return (
+    <div>
+      <Link to="/signUp" className="">
+        Sign Up
+      </Link>
+
+      <Link to="/signIn" className="">
+        Sign In
+      </Link>
+    </div>
+  );
 }
