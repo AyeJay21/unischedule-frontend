@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import {useNavigate, Link, Route, Routes, BrowserRouter as Router } from "react-router-dom";
+import TimeTable from "./TimeTable";
 import "./SignUp.css";
 
 function SignUp() {
-  const [user, setUser] = useState({ email: "", password: "" });
+  const [user, setUser] = useState({ email: "", password: "", username: "" });
+  const navigate = useNavigate(); // Hook initialisieren
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    fetch("http://localhost:8080/api/v1/users/signUp", {
+    fetch("http://localhost:8080/auth/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -15,7 +17,10 @@ function SignUp() {
       body: JSON.stringify(user),
     })
       .then((response) => response.json())
-      .then((data) => console.log("User created:", data))
+      .then((data) => {
+        //console.log("User created:", data);
+        navigate("/timetable"); // Weiterleitung zur TimeTable-Seite
+      })
       .catch((error) => console.error("Error creating user:", error));
   };
 
@@ -30,6 +35,13 @@ function SignUp() {
       <form onSubmit={handleSubmit} className="form-container">
         <input
           type="text"
+          name="username"
+          value={user.username}
+          onChange={handleChange}
+          placeholder="Username"
+        />
+        <input
+          type="text"
           name="email"
           value={user.email}
           onChange={handleChange}
@@ -42,11 +54,12 @@ function SignUp() {
           onChange={handleChange}
           placeholder="Password"
         />
-        <button type="submit">Submit</button>
+        <button type="submit" onClick={()=> navigate("/timetable")}>Submit</button>
       </form>
-      <Link to="/signIn" className="signup-link">
+      <Link to="/signin" className="signup-link">
         Already have an account? Sign In
-      </Link> {/* Link unten */}
+      </Link>{" "}
+      {/* Link unten */}
     </div>
   );
 }

@@ -4,14 +4,17 @@ import "./HomePage.css";
 
 export default function HomePage() {
   return (
-    <div>
-      <Link to="/signUp" className="">
-        Sign Up
-      </Link>
+    <div className="page-container">
+      <h1>Welcome</h1>
+      <div className="links-container">
+        <Link to="/signup" className="homepage-link">
+          Sign Up
+        </Link>
 
-      <Link to="/signIn" className="">
-        Sign In
-      </Link>
+        <Link to="/signin" className="homepage-link">
+          Sign In
+        </Link>
+      </div>
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./SignIn.css";
 
 export default function SignIn() {
-  const [user, setUser] = useState({ email: "", password: "" });
+  const [user, setUser] = useState({ username: "", password: "" });
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
@@ -11,7 +11,7 @@ export default function SignIn() {
     event.preventDefault();
     try {
       const response = await fetch(
-        "http://localhost:8080/api/v1/users/signIn",
+        "http://localhost:8080/auth/signin",
         {
           method: "POST",
           headers: {
@@ -20,11 +20,14 @@ export default function SignIn() {
           body: JSON.stringify(user),
         }
       );
+      
+      console.log("Response status:", response.status);
+      
       if (!response.ok) {
         if (response.status === 404) {
-          setError("Email does not exist");
+          setError("Username does not exist");
         } else if (response.status === 401) {
-          setError("Incorrect email or password");
+          setError("Incorrect username or password");
         } else {
           setError("Sign in failed");
         }
@@ -33,7 +36,7 @@ export default function SignIn() {
 
       const data = await response.json();
       console.log("User signed in:", data);
-      navigate("/homepage");
+      navigate("/timetable");
     } catch (error) {
       console.error("Error signing in:", error);
       setError("Sign in failed");
@@ -47,15 +50,15 @@ export default function SignIn() {
 
   return (
     <div className="page-container">
-      <h1>Sign In</h1> {/* Überschrift oben */}
+      <h1>Sign In</h1>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleSubmit} className="form-container">
         <input
           type="text"
-          name="email"
-          value={user.email}
+          name="username"
+          value={user.username}
           onChange={handleChange}
-          placeholder="Email"
+          placeholder="Username"
         />
         <input
           type="password"
@@ -66,9 +69,9 @@ export default function SignIn() {
         />
         <button type="submit">Submit</button>
       </form>
-      <Link to="/signUp" className="signup-link">
+      <Link to="/signup" className="signup-link">
         Don't have an account? Sign Up
-      </Link> {/* Link unten */}
+      </Link>
     </div>
   );
 }

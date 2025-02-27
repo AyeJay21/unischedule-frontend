@@ -1,0 +1,92 @@
+/* Basis-Stile aus SignUp.css übernommen */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+}
+
+/* Zentriert das gesamte Seiten-Inhalt */
+.page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    gap: 2rem;
+}
+
+.links-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 300px;
+}
+
+/* Überschrift mit Glow-Effekt aus SignUp.css */
+h1 {
+    font-size: 32px;
+    font-weight: bold;
+    color: #2196F3;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(33, 150, 243, 0.7);
+    margin-bottom: 20px;
+}
+
+/* Stile für die Navigation-Links */
+.homepage-link {
+    display: block;
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    border: 2px solid #4CAF50;
+    border-radius: 25px;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* Spezielle Stile für den zweiten Link (Sign In) */
+.homepage-link:nth-child(2) {
+    background-color: #2196F3;
+    border-color: #2196F3;
+}
+
+/* Hover-Effekt für Links */
+.homepage-link:hover {
+    background: white;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+}
+
+/* Spezifischer Hover-Effekt für den zweiten Link */
+.homepage-link:nth-child(2):hover {
+    color: #2196F3;
+    box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .page-container {
+        gap: 1.5rem;
+    }
+    
+    .homepage-link {
+        padding: 10px 28px;
+        font-size: 16px;
+    }
+    
+    .links-container {
+        width: 250px;
+    }
+}

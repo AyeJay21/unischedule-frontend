@@ -6,6 +6,10 @@
     --table-cell-background-color: white;
     --modal-background-color: white;
     --overlay-background-color: rgba(0, 0, 0, 0.5);
+    --header-background-color: #e3f2fd;  /* Helles Blau für Wochentage */
+    --time-cell-background-color: #f5fbff; /* Sehr helles Blau für Uhrzeiten */
+    --timetable-text-color: #1976d2; /* Blaue Textfarbe für Timetable */
+    --page-background: linear-gradient(135deg, #e3f2fd 0%, #ffffff 100%);
 }
 
 /* Dark Mode Farben */
@@ -16,9 +20,20 @@ body.dark-mode {
     --table-cell-background-color: #333;
     --modal-background-color: #333;
     --overlay-background-color: rgba(255, 255, 255, 0.5);
+    --timetable-text-color: #888f9b; /* Hellblau für Timetable-Text */
+    --header-background-color: #2d3748; /* Dunkler Blau-Ton für Header */
+    --time-cell-background-color: #373d48; /* Dunkler Blau-Ton für Zeit-Spalte */
+    --page-background: linear-gradient(
+        135deg,
+        #1c1c1c 0%,
+        #242424 50%,
+        #2c2c2c 100%
+    );
 }
 
 body {
+    background: var(--page-background);
+    background-attachment: fixed;
     background-color: var(--background-color);
     color: var(--text-color);
     margin: 0;
@@ -28,6 +43,7 @@ body {
 }
 
 .darkModeContainer {
+    
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -38,6 +54,8 @@ body {
     margin: 0;
     font-size: 24px;
     font-weight: bold;
+    color: var(--timetable-text-color);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .darkModeButton {
@@ -77,9 +95,10 @@ body {
 /* Kopfzeilen */
 .table th {
     border: 1px solid var(--table-border-color);
-    background-color: #2a2a2a; /* Dunkler Hintergrund für Kontrast */
+    background-color: var(--header-background-color);
+    color: var(--timetable-text-color);
     padding: 12px;
-    color: #ffffff; /* Weißer Text für Lesbarkeit */
+     /* color: #ffffff; Weißer Text für Lesbarkeit */
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -115,6 +134,7 @@ body {
 /* Anpassung der Spaltenbreiten */
 .table th:first-child,
 .table td:first-child {
+    background-color: var(--time-cell-background-color);
     width: 10%;
     font-weight: bold;
 }
@@ -237,7 +257,7 @@ body.dark-mode .table td:hover {
 /* Styling für den SketchPicker */
 .modal .sketch-picker {
     margin: 20px 0;
-    border-radius: 8px;
+    border-radius: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     padding: 16px !important;
     background: linear-gradient(135deg, var(--modal-background-color), rgba(255, 255, 255, 0.05)) !important;
