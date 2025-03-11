@@ -1,114 +1,129 @@
 /* Basis-Stile aus App.css, lokal für SignIn */
 body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: "Arial", sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
 }
 
 /* Zentriert das gesamte Sign-In-Formular */
 .page-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    text-align: center;
-    gap: 2rem; /* Aus App.css für div übernommen */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  gap: 2rem; /* Aus App.css für div übernommen */
 }
 
 /* Stile für das Formular */
 .form-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 300px;
-    gap: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  gap: 12px;
 }
 
 /* Stile für die Eingabefelder */
 input[type="text"],
 input[type="password"] {
-    width: 100%;
-    padding: 12px 20px;
-    border: 1px solid #ccc;
-    border-radius: 25px;
-    font-size: 16px;
-    transition: all 0.3s ease;
-    text-align: center; /* Zentriert den Platzhaltertext */
+  width: 100%;
+  padding: 12px 20px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  text-align: center; /* Zentriert den Platzhaltertext */
 }
 
 /* Fokus-Effekt */
 input[type="text"]:focus,
 input[type="password"]:focus {
-    border-color: #2196F3;
-    outline: none;
-    box-shadow: 0 0 8px rgba(33, 150, 243, 0.3);
+  border-color: #2196f3;
+  outline: none;
+  box-shadow: 0 0 8px rgba(33, 150, 243, 0.3);
 }
 
 /* Stile für den Submit-Button (inspired by App.css Links) */
 button[type="submit"] {
-    width: 100%;
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    border: 2px solid #4CAF50; /* Wie in App.css für a:first-child */
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 18px; /* Wie in App.css für a */
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px; /* Aus App.css für a übernommen */
-    transition: all 0.3s ease;
+  width: 100%;
+  background-color: #4caf50;
+  color: white;
+  padding: 14px 20px;
+  border: 2px solid #4caf50; /* Wie in App.css für a:first-child */
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 18px; /* Wie in App.css für a */
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px; /* Aus App.css für a übernommen */
+  transition: all 0.3s ease;
 }
 
 button[type="submit"]:hover {
-    background: white;
-    color: #4CAF50;
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3); /* Wie in App.css */
+  background: white;
+  color: #4caf50;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3); /* Wie in App.css */
 }
 
 /* Stile für den Link "Don't have an account? Sign Up" (inspired by App.css Links) */
 .signup-link {
-    margin-top: 16px;
-    font-size: 16px; /* Wie in App.css für a, angepasst */
-    font-weight: bold; /* Wie in App.css für a */
-    color: #2196F3;
-    text-decoration: none;
-    text-transform: uppercase; /* Aus App.css für a übernommen */
-    letter-spacing: 1px; /* Aus App.css für a übernommen */
-    transition: all 0.3s ease; /* Aus App.css für a übernommen */
-    text-shadow: 0 0 8px rgba(33, 150, 243, 0.5);
+  margin-top: 16px;
+  font-size: 16px; /* Wie in App.css für a, angepasst */
+  font-weight: bold; /* Wie in App.css für a */
+  color: #2196f3;
+  text-decoration: none;
+  text-transform: uppercase; /* Aus App.css für a übernommen */
+  letter-spacing: 1px; /* Aus App.css für a übernommen */
+  transition: all 0.3s ease; /* Aus App.css für a übernommen */
+  text-shadow: 0 0 8px rgba(33, 150, 243, 0.5);
 }
 
 .signup-link:hover {
-    color: #0d47a1;
-    text-shadow: 0 0 15px rgba(13, 71, 161, 0.8);
-    transform: scale(1.05); /* Aus App.css Hover-Effekt inspiriert */
+  color: #0d47a1;
+  text-shadow: 0 0 15px rgba(13, 71, 161, 0.8);
+  transform: scale(1.05); /* Aus App.css Hover-Effekt inspiriert */
 }
 
 /* Überschrift "Sign In" mit Glow-Effekt */
 h1 {
-    font-size: 32px;
-    font-weight: bold;
-    color: #2196F3;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    text-shadow: 0 0 10px rgba(33, 150, 243, 0.7);
-    margin-bottom: 20px;
+  font-size: 32px;
+  font-weight: bold;
+  color: #2196f3;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(33, 150, 243, 0.7);
+  margin-bottom: 20px;
 }
 
 /* Responsive Design (aus App.css übernommen und angepasst) */
 @media (max-width: 768px) {
-    .page-container {
-        gap: 1.5rem; /* Aus App.css übernommen */
-    }
-    
-    button[type="submit"],
-    .signup-link {
-        padding: 10px 28px; /* Aus App.css für a übernommen */
-        font-size: 16px; /* Aus App.css für a übernommen */
-    }
+  .page-container {
+    gap: 1.5rem; /* Aus App.css übernommen */
+  }
+
+  button[type="submit"],
+  .signup-link {
+    padding: 10px 28px; /* Aus App.css für a übernommen */
+    font-size: 16px; /* Aus App.css für a übernommen */
+  }
+}
+
+.error-message {
+  background-color: rgba(255, 0, 0, 0.1);
+  border: 1px solid red;
+  color: red;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+}
+
+.refreshButton {
+  padding: 8px 16px;
+  background-color: var(--table-header-background-color);
+  color: var(--text-color);
 }

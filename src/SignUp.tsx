@@ -16,10 +16,18 @@ function SignUp() {
       },
       body: JSON.stringify(user),
     })
-      .then((response) => response.json())
+    .then(async (response) =>{
+      if(!response.ok){
+        const errorText = await response.text();
+        console.error("Fehler beim Erstellen eines Users", errorText);
+        throw new Error("Fehler" + errorText);
+      }
+      console.log("Response-Objekte", response);
+
+      return response.json();
+    })
       .then((data) => {
-        //console.log("User created:", data);
-        navigate("/timetable"); // Weiterleitung zur TimeTable-Seite
+        navigate("/timetable");
       })
       .catch((error) => console.error("Error creating user:", error));
   };
@@ -54,7 +62,7 @@ function SignUp() {
           onChange={handleChange}
           placeholder="Password"
         />
-        <button type="submit" onClick={()=> navigate("/timetable")}>Submit</button>
+        <button type="submit">Submit</button>
       </form>
       <Link to="/signin" className="signup-link">
         Already have an account? Sign In

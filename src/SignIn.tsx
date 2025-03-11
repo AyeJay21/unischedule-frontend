@@ -10,19 +10,16 @@ export default function SignIn() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const response = await fetch(
-        "http://localhost:8080/auth/signin",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(user),
-        }
-      );
-      
+      const response = await fetch("http://localhost:8080/auth/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+
       console.log("Response status:", response.status);
-      
+
       if (!response.ok) {
         if (response.status === 404) {
           setError("Username does not exist");
@@ -36,6 +33,12 @@ export default function SignIn() {
 
       const data = await response.json();
       console.log("User signed in:", data);
+
+      // Speichere den JWT-Token im localStorage
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+      }
+
       navigate("/timetable");
     } catch (error) {
       console.error("Error signing in:", error);

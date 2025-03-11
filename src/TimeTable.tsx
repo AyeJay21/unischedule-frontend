@@ -11,12 +11,12 @@ type ColorType =
   | "pearl"
   | "neon"
   | "pastel"
-  | "chrome"; // Erweiterte Farbtypen
+  | "chrome";
 
 type CellData = {
   subject: string;
-  color: string; // RGB- oder Hex-Farbe
-  colorType: ColorType; // Typ der Farbe (erweiterte Optionen)
+  color: string;
+  colorType: ColorType;
 };
 
 type Day = "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday";
@@ -32,16 +32,43 @@ type Hour =
   | "16:00-17:00"
   | "17:00-18:00";
 
+// Neuer Typ für API-Kommunikation
+type TimeTableEntry = {
+  id?: number;
+  day: string;
+  startTime: string;
+  endTime: string;
+  subject: string;
+  color?: string;
+  colorType?: string;
+};
+
+// Neuer Typ für das Request-Objekt
+type TimeTableEntryRequest = {
+  day: string;
+  startTime: string;
+  endTime: string;
+  subject: string;
+  color?: string;
+  colorType?: string;
+};
+
 const TimeTable = () => {
+  // Initialer Zustand wie zuvor
   const [schedule, setSchedule] = useState<Record<Day, Record<Hour, CellData>>>(
     {
       Monday: {
         "8:00-9:00": { subject: "Math", color: "#FF1313", colorType: "glossy" },
-        "9:00-10:00": { subject: "Physics", color: "#0C7FFC", colorType: "glossy" },
+        "9:00-10:00": {
+          subject: "Physics",
+          color: "#0C7FFC",
+          colorType: "glossy",
+        },
+        // ... Rest der Initialisierung wie zuvor
         "10:00-11:00": {
           subject: "",
           color: "var(--table-cell-background-color)",
-          colorType: "glossy", // Standardwert für leere Zellen
+          colorType: "glossy",
         },
         "11:00-12:00": {
           subject: "",
@@ -80,8 +107,16 @@ const TimeTable = () => {
         },
       },
       Tuesday: {
-        "8:00-9:00": { subject: "Chemistry", color: "#F5A623", colorType: "glossy" },
-        "9:00-10:00": { subject: "Biology", color: "#00C400", colorType: "glossy" },
+        "8:00-9:00": {
+          subject: "Chemistry",
+          color: "#F5A623",
+          colorType: "glossy",
+        },
+        "9:00-10:00": {
+          subject: "Biology",
+          color: "#00C400",
+          colorType: "glossy",
+        },
         "10:00-11:00": {
           subject: "",
           color: "var(--table-cell-background-color)",
@@ -124,6 +159,7 @@ const TimeTable = () => {
         },
       },
       Wednesday: {
+        // ... Restliche Initialisierung wie zuvor
         "8:00-9:00": {
           subject: "",
           color: "var(--table-cell-background-color)",
@@ -176,6 +212,7 @@ const TimeTable = () => {
         },
       },
       Thursday: {
+        // ... Restliche Initialisierung wie zuvor
         "8:00-9:00": {
           subject: "",
           color: "var(--table-cell-background-color)",
@@ -228,6 +265,7 @@ const TimeTable = () => {
         },
       },
       Friday: {
+        // ... Restliche Initialisierung wie zuvor
         "8:00-9:00": {
           subject: "",
           color: "var(--table-cell-background-color)",
@@ -285,12 +323,15 @@ const TimeTable = () => {
   const [selectedDay, setSelectedDay] = useState<Day | null>(null);
   const [selectedHour, setSelectedHour] = useState<Hour | null>(null);
   const [color, setColor] = useState({ r: 255, g: 255, b: 255, a: 1 });
-  const [colorType, setColorType] = useState<ColorType>("glossy"); // Standardwert für Farbtyp
+  const [colorType, setColorType] = useState<ColorType>("glossy");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [loadingData, setLoadingData] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const milliSecond = 100;
 
+  // Bestehende useEffects wie zuvor
   useEffect(() => {
     if (isDarkMode) {
       document.body.classList.add("dark-mode");
@@ -298,6 +339,21 @@ const TimeTable = () => {
       document.body.classList.remove("dark-mode");
     }
   }, [isDarkMode]);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (isDarkMode) {
+      root.style.setProperty("--cell-color", "");
+    } else {
+      root.style.setProperty("--cell-color", "");
+    }
+  }, [isDarkMode]);
+
+  // NEUER useEffect: Lade Stundenplan beim ersten Laden
+  useEffect(() => {
+    fetchTimeTable();
+    setError(null); // Fehler zurücksetzen
+  }, []);
 
   const days: Day[] = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
   const hours: Hour[] = [
@@ -313,17 +369,7 @@ const TimeTable = () => {
     "17:00-18:00",
   ];
 
-  // Füge diesen useEffect hinzu
-useEffect(() => {
-  const root = document.documentElement;
-  if (isDarkMode) {
-    root.style.setProperty('--cell-color', '');
-  } else {
-    root.style.setProperty('--cell-color', '');
-  }
-}, [isDarkMode]);
-
-  // Convert hex to rgba
+  // Helferfunktionen für Farben wie zuvor
   const hexToRgba = (hex: string) => {
     const bigint = parseInt(hex.slice(1), 16);
     const r = (bigint >> 16) & 255;
@@ -332,7 +378,6 @@ useEffect(() => {
     return { r, g, b, a: 1 };
   };
 
-  // Parse rgba string
   const parseRgba = (rgba: string) => {
     const match = rgba.match(
       /rgba?\((\d+),\s*(\d+),\s*(\d+),?\s*(\d*(?:\.\d+)?)?\)/
@@ -348,7 +393,134 @@ useEffect(() => {
     return { r: 255, g: 255, b: 255, a: 1 }; // Fallback
   };
 
-  // Long press
+  // NEUE FUNKTION: Hole den JWT-Token aus dem localStorage
+  const getAuthToken = (): string | null => {
+    return localStorage.getItem("token");
+  };
+
+  // NEUE FUNKTION: API-Endpunkt zum Abrufen des Stundenplans
+  const fetchTimeTable = async () => {
+    setLoadingData(true);
+    setError(null);
+
+    try {
+      const token = getAuthToken();
+      if (!token) {
+        setError("Nicht eingeloggt. Bitte melde dich an.");
+        setLoadingData(false);
+        return;
+      }
+
+      const response = await fetch("http://localhost:8080/timetable/user", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP Error: ${response.status}`);
+      }
+
+      const data: TimeTableEntry[] = await response.json();
+
+      // Konvertiere API-Daten in das Schedule-Format
+      if (data.length > 0) {
+        const newSchedule = { ...schedule };
+
+        // Setze zunächst alle Zellen zurück
+        for (const day of days) {
+          for (const hour of hours) {
+            newSchedule[day][hour] = {
+              subject: "",
+              color: "var(--table-cell-background-color)",
+              colorType: "glossy",
+            };
+          }
+        }
+
+        // Füge die Daten aus der API hinzu
+        data.forEach((entry) => {
+          const day = entry.day as Day;
+          const timeRange = `${entry.startTime}-${entry.endTime}` as Hour;
+
+          if (days.includes(day) && hours.includes(timeRange)) {
+            newSchedule[day][timeRange] = {
+              subject: entry.subject,
+              color: entry.color || "#FF1313",
+              colorType: (entry.colorType as ColorType) || "glossy",
+            };
+          }
+        });
+
+        setSchedule(newSchedule);
+      }
+    } catch (err) {
+      setError(
+        "Fehler beim Laden des Stundenplans: " +
+          (err instanceof Error ? err.message : String(err))
+      );
+      console.error("Fehler beim Laden des Stundenplans:", err);
+    } finally {
+      setLoadingData(false);
+    }
+  };
+
+  // NEUE FUNKTION: API-Endpunkt zum Speichern eines neuen Eintrags
+  const saveTimeTableEntry = async (
+    day: Day,
+    hour: Hour,
+    subject: string,
+    color: string,
+    colorType: ColorType
+  ) => {
+    try {
+      const token = getAuthToken();
+      if (!token) {
+        setError("Nicht eingeloggt. Bitte melde dich an.");
+        return false;
+      }
+
+      // Parse hour in start and end time
+      const [startTime, endTime] = hour.split("-");
+
+      const entryRequest: TimeTableEntryRequest = {
+        day: day,
+        startTime: startTime,
+        endTime: endTime,
+        subject: subject,
+        color: color,
+        colorType: colorType,
+      };
+
+      const response = await fetch("http://localhost:8080/timetable/entry", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(entryRequest),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP Error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Eintrag erfolgreich gespeichert:", data);
+      return true;
+    } catch (err) {
+      setError(
+        "Fehler beim Speichern des Eintrags: " +
+          (err instanceof Error ? err.message : String(err))
+      );
+      console.error("Fehler beim Speichern des Eintrags:", err);
+      return false;
+    }
+  };
+
+  // Long press - wie zuvor
   const handleMouseDown = (day: Day, hour: Hour) => {
     timerRef.current = setTimeout(() => {
       setSelectedDay(day);
@@ -359,12 +531,12 @@ useEffect(() => {
         ? hexToRgba(cellColor)
         : parseRgba(cellColor);
       setColor(rgbaColor);
-      setColorType(cellColorType); // Setze den aktuellen Farbtyp
+      setColorType(cellColorType);
       setIsModalOpen(true);
     }, milliSecond);
   };
 
-  // Clear the timer
+  // Clear the timer - wie zuvor
   const handleMouseUp = () => {
     if (timerRef.current) {
       clearTimeout(timerRef.current);
@@ -372,41 +544,63 @@ useEffect(() => {
     }
   };
 
-  // Add subject
-  const handleClick = (day: Day, hour: Hour) => {
+  // Add subject - AKTUALISIERT: mit API-Speicherung
+  const handleClick = async (day: Day, hour: Hour) => {
     if (!isModalOpen) {
       const subject = prompt("Enter subject:");
-      if (subject !== null) {
-        // Wenn das Fach bereits existiert, hole die Standardfarbe und Farbtyp, sonst behalte die aktuelle Zellenfarbe
-        const defaultColor = isSubjectAdded(subject) || schedule[day][hour].color;
-        const defaultColorType = getDefaultColorType(subject) || "glossy"; // Standard-Farbtyp
+      if (subject !== null && subject.trim() !== "") {
+        // Farbe und Farbtyp festlegen
+        const defaultColor =
+          isSubjectAdded(subject) || schedule[day][hour].color;
+        const defaultColorType = getDefaultColorType(subject) || "glossy";
+
+        // Lokalen Zustand aktualisieren
         setSchedule((prev) => ({
           ...prev,
           [day]: {
             ...prev[day],
-            [hour]: { subject, color: defaultColor, colorType: defaultColorType },
+            [hour]: {
+              subject,
+              color: defaultColor,
+              colorType: defaultColorType,
+            },
           },
         }));
+
+        // An API senden
+        const success = await saveTimeTableEntry(
+          day,
+          hour,
+          subject,
+          defaultColor,
+          defaultColorType
+        );
+
+        // Bei Fehler Stundenplan neu laden (um lokalen und Server-Zustand zu synchronisieren)
+        if (!success) {
+          fetchTimeTable();
+        }
       }
     }
   };
 
-  // Change the color
+  // Change the color - wie zuvor
   const handleColorChange = (color: any) => {
     setColor(color.rgb);
   };
 
-  // Change the color type
+  // Change the color type - wie zuvor
   const handleColorTypeChange = (newColorType: ColorType) => {
     setColorType(newColorType);
   };
 
-  // Save the color and color type for all filled cells
-  const handleSave = () => {
+  // Save the color and color type - AKTUALISIERT: mit API-Speicherung
+  const handleSave = async () => {
     if (selectedDay && selectedHour) {
       const rgbaString = `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`;
+
+      // Lokalen Zustand aktualisieren
       setSchedule((prev) => {
-        // Aktualisiere die Farbe nur für die ausgewählte Zelle
         const updatedSchedule = {
           ...prev,
           [selectedDay]: {
@@ -414,61 +608,58 @@ useEffect(() => {
             [selectedHour]: {
               ...prev[selectedDay][selectedHour],
               color: rgbaString,
-              colorType: colorType, // Speichere den gewählten Farbtyp
+              colorType: colorType,
             },
           },
         };
 
-        // Aktualisiere den Farbtyp für alle gefüllten Zellen
-        const newSchedule = { ...updatedSchedule };
-        for (const day of days) {
-          for (const hour of hours) {
-            if (newSchedule[day][hour].subject.trim() !== "") {
-              newSchedule[day] = {
-                ...newSchedule[day],
-                [hour]: {
-                  ...newSchedule[day][hour],
-                  colorType: colorType, // Setze den neuen Farbtyp für alle gefüllten Zellen
-                },
-              };
-            }
-          }
-        }
-
-        return newSchedule;
+        return updatedSchedule;
       });
+
+      // Speichere Änderung über API
+      if (schedule[selectedDay][selectedHour].subject.trim() !== "") {
+        await saveTimeTableEntry(
+          selectedDay,
+          selectedHour,
+          schedule[selectedDay][selectedHour].subject,
+          rgbaString,
+          colorType
+        );
+      }
     }
     setIsModalOpen(false);
   };
 
-  // Dark Mode
+  // Dark Mode - wie zuvor
   const toggleDarkMode = () => {
     setIsDarkMode((prevMode) => !prevMode);
     document.body.classList.toggle("dark-mode", !isDarkMode);
   };
 
-  // Check if subject is already added and return its default color if it exists
+  // Check if subject is already added - wie zuvor
   const isSubjectAdded = (subject: string): string | null => {
     for (const day of Object.keys(schedule) as Day[]) {
       for (const hour of Object.keys(schedule[day]) as Hour[]) {
-        if (schedule[day][hour].subject === subject && schedule[day][hour].subject.trim() !== "") {
-          return schedule[day][hour].color; // Gibt die Farbe des ersten gefundenen Eintrags zurück
+        if (
+          schedule[day][hour].subject === subject &&
+          schedule[day][hour].subject.trim() !== ""
+        ) {
+          return schedule[day][hour].color;
         }
       }
     }
-    return null; // Keine Farbe gefunden
+    return null;
   };
 
-  // Get default color type for a subject (can be expanded with a mapping)
+  // Get default color type - wie zuvor
   const getDefaultColorType = (subject: string): ColorType | null => {
-    // Hier kannst du eine Mapping definieren, welche Farbtypen standardmäßig für jedes Fach gelten
     const subjectColorTypes: Record<string, ColorType> = {
-      "Math": "glossy",
-      "Physics": "metallic",
-      "Chemistry": "matte",
-      "Biology": "glossy",
+      Math: "glossy",
+      Physics: "metallic",
+      Chemistry: "matte",
+      Biology: "glossy",
     };
-    return subjectColorTypes[subject] || "glossy"; // Standardwert ist "glossy"
+    return subjectColorTypes[subject] || "glossy";
   };
 
   // Render
@@ -479,7 +670,18 @@ useEffect(() => {
         <button className="darkModeButton" onClick={toggleDarkMode}>
           {isDarkMode ? "Light Mode" : "Dark Mode"}
         </button>
+        {/* NEUER BUTTON: Manuelles Neuladen des Stundenplans */}
+        <button
+          className="refreshButton"
+          onClick={fetchTimeTable}
+          disabled={loadingData}
+        >
+          {loadingData ? "Lädt..." : "Aktualisieren"}
+        </button>
       </div>
+
+      {error && <div className="error-message">{error}</div>}
+
       <div className="table-container">
         <table className="table">
           <thead>
@@ -496,25 +698,32 @@ useEffect(() => {
                 <td>{hour}</td>
                 {days.map((day) => (
                   <td
-                  key={day}
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    handleMouseDown(day, hour);
-                  }}
-                  onMouseUp={handleMouseUp}
-                  onClick={() => handleClick(day, hour)}
-                  onContextMenu={(e) => e.preventDefault()}
-                  className={schedule[day][hour].subject.trim() === "" ? "" : schedule[day][hour].colorType}
-                  style={{
-                    backgroundColor:
+                    key={day}
+                    onMouseDown={(e) => {
+                      e.preventDefault();
+                      handleMouseDown(day, hour);
+                    }}
+                    onMouseUp={handleMouseUp}
+                    onClick={() => handleClick(day, hour)}
+                    onContextMenu={(e) => e.preventDefault()}
+                    className={
                       schedule[day][hour].subject.trim() === ""
-                        ? "var(--table-cell-background-color)"
-                        : applyColorEffect(schedule[day][hour].color, schedule[day][hour].colorType),
-                    transition: "all 0.3s ease", // Flüssige Übergänge für Hover und Effekte
-                  }}
-                >
-                  {schedule[day][hour].subject}
-                </td>
+                        ? ""
+                        : schedule[day][hour].colorType
+                    }
+                    style={{
+                      backgroundColor:
+                        schedule[day][hour].subject.trim() === ""
+                          ? "var(--table-cell-background-color)"
+                          : applyColorEffect(
+                              schedule[day][hour].color,
+                              schedule[day][hour].colorType
+                            ),
+                      transition: "all 0.3s ease",
+                    }}
+                  >
+                    {schedule[day][hour].subject}
+                  </td>
                 ))}
               </tr>
             ))}
@@ -523,7 +732,7 @@ useEffect(() => {
       </div>
 
       <Modal
-        isOpen={isModalOpen}  // Korrigierter Tippfehler (war 'isObject')
+        isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}
         contentLabel="Edit Schedule"
         className="modal"
@@ -546,7 +755,9 @@ useEffect(() => {
         </p>
         <SketchPicker color={color} onChange={handleColorChange} />
         <div style={{ marginTop: "12px" }}>
-          <label style={{ marginRight: "10px", color: "var(--text-color)" }}>Color Style:</label>
+          <label style={{ marginRight: "10px", color: "var(--text-color)" }}>
+            Color Style:
+          </label>
           <select
             value={colorType}
             onChange={(e) => handleColorTypeChange(e.target.value as ColorType)}
@@ -586,7 +797,7 @@ useEffect(() => {
   );
 };
 
-// Funktion, um Farbeffekte basierend auf dem Farbtyp anzuwenden
+// Funktion, um Farbeffekte anzuwenden - wie zuvor
 const applyColorEffect = (color: string, colorType: ColorType): string => {
   switch (colorType) {
     case "glossy":
