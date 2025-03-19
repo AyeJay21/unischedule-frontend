@@ -411,10 +411,10 @@ const TimeTable = () => {
         return;
       }
 
-      const response = await fetch("http://localhost:8080/timetable/user", {
+      const response = await fetch("http://localhost:8080/user/{userId}/timetable", {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       });
@@ -482,7 +482,6 @@ const TimeTable = () => {
         return false;
       }
 
-      // Parse hour in start and end time
       const [startTime, endTime] = hour.split("-");
 
       const entryRequest: TimeTableEntryRequest = {
@@ -494,7 +493,7 @@ const TimeTable = () => {
         colorType: colorType,
       };
 
-      const response = await fetch("http://localhost:8080/timetable/entry", {
+      const response = await fetch("http://localhost:8080/user/{userId}/timetable", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -502,6 +501,7 @@ const TimeTable = () => {
         },
         body: JSON.stringify(entryRequest),
       });
+      console.log(token);
 
       if (!response.ok) {
         throw new Error(`HTTP Error: ${response.status}`);

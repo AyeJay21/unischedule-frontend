@@ -7,6 +7,13 @@ export default function SignIn() {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
+  const getTokenFromCookie = () => {
+    const cookie = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("jwt="));  // "jwt" ist der Name des Cookies
+    return cookie ? cookie.split("=")[1] : null;
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
@@ -15,6 +22,7 @@ export default function SignIn() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify(user),
       });
 
@@ -39,7 +47,7 @@ export default function SignIn() {
         localStorage.setItem("token", data.token);
       }
 
-      navigate("/timetable");
+      navigate(`/user/${data.id}/timetable`);
     } catch (error) {
       console.error("Error signing in:", error);
       setError("Sign in failed");
