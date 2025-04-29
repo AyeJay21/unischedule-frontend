@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/react-router-dom": "^5.3.3",
     "ajv": "^8.17.1",
+    "http-proxy-middleware": "^3.0.3",
     "react": "^18.0.0",
     "react-color": "^2.19.3",
     "react-dom": "^18.0.0",

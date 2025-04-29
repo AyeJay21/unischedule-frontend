@@ -394,9 +394,16 @@ const TimeTable = () => {
   };
 
   // NEUE FUNKTION: Hole den JWT-Token aus dem localStorage
-  const getAuthToken = (): string | null => {
-    return localStorage.getItem("token");
-  };
+  // const getAuthToken = (): string | null => {
+  //   const cookie = document.cookie;
+  //   if(!cookie){
+  //     console.log("COOKIE ist leer");
+  //   }
+  //   else{
+  //     console.log("COOKIE", cookie);
+  //   }
+  //   return cookie;
+  // };
 
   // NEUE FUNKTION: API-Endpunkt zum Abrufen des Stundenplans
   const fetchTimeTable = async () => {
@@ -404,19 +411,23 @@ const TimeTable = () => {
     setError(null);
 
     try {
-      const token = getAuthToken();
-      if (!token) {
-        setError("Nicht eingeloggt. Bitte melde dich an.");
-        setLoadingData(false);
-        return;
-      }
+      // const token = getAuthToken();
+      // if (!token) {
+      //   setError("Nicht eingeloggt. Bitte melde dich an.");
+      //   setLoadingData(false);
+      //   return;
+      // }
 
-      const response = await fetch("http://localhost:8080/user/{userId}/timetable", {
+      const userId = localStorage.getItem('userId');
+      const token = localStorage.getItem('token');
+
+      const response = await fetch(`http://localhost:8080/users/timetable`, {
         method: "GET",
         headers: {
-          "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`, // <- HIER!!!
         },
+        credentials: "include",
       });
 
       if (!response.ok) {
@@ -424,6 +435,7 @@ const TimeTable = () => {
       }
 
       const data: TimeTableEntry[] = await response.json();
+      console.log("DATA JSONED:", data);
 
       // Konvertiere API-Daten in das Schedule-Format
       if (data.length > 0) {
@@ -476,14 +488,8 @@ const TimeTable = () => {
     colorType: ColorType
   ) => {
     try {
-      const token = getAuthToken();
-      if (!token) {
-        setError("Nicht eingeloggt. Bitte melde dich an.");
-        return false;
-      }
-
       const [startTime, endTime] = hour.split("-");
-
+    
       const entryRequest: TimeTableEntryRequest = {
         day: day,
         startTime: startTime,
@@ -493,21 +499,24 @@ const TimeTable = () => {
         colorType: colorType,
       };
 
-      const response = await fetch("http://localhost:8080/user/{userId}/timetable", {
+      const userId = localStorage.getItem('userId');
+    
+      const response = await fetch(`http://localhost:8080/users/timetable`, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify(entryRequest),
       });
-      console.log(token);
-
+    
       if (!response.ok) {
         throw new Error(`HTTP Error: ${response.status}`);
       }
-
+    
       const data = await response.json();
+      console.log("TOKEN: ",data.token);
+      localStorage.setItem('token', data.token)
       console.log("Eintrag erfolgreich gespeichert:", data);
       return true;
     } catch (err) {
@@ -518,6 +527,7 @@ const TimeTable = () => {
       console.error("Fehler beim Speichern des Eintrags:", err);
       return false;
     }
+    
   };
 
   // Long press - wie zuvor

@@ -10,7 +10,6 @@ export default function HomePage() {
         <Link to="/signup" className="homepage-link">
           Sign Up
         </Link>
-
         <Link to="/signin" className="homepage-link">
           Sign In
         </Link>

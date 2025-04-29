@@ -41,13 +41,15 @@ export default function SignIn() {
 
       const data = await response.json();
       console.log("User signed in:", data);
+      localStorage.setItem('userId', data.id);
+      localStorage.setItem('username', data.userName);
 
-      // Speichere den JWT-Token im localStorage
+      const jwtToken = getTokenFromCookie();
       if (data.token) {
         localStorage.setItem("token", data.token);
       }
 
-      navigate(`/user/${data.id}/timetable`);
+      navigate(`/users/timetable`);
     } catch (error) {
       console.error("Error signing in:", error);
       setError("Sign in failed");

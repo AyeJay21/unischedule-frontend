@@ -17,7 +17,7 @@ function App() {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/login" element={<TestSecurity />} />
         <Route path="/error" element={<ErrorPage />} />
-        <Route path="/user/:userId/timetable" element={<TimeTable />} /> {/* Dynamische Route */}      </Routes>
+        <Route path="/users/timetable" element={<TimeTable />} /> {/* Dynamische Route */}      </Routes>
     </Router>
   );
 }
