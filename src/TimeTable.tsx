@@ -393,52 +393,60 @@ const TimeTable = () => {
     return { r: 255, g: 255, b: 255, a: 1 }; // Fallback
   };
 
-  // NEUE FUNKTION: Hole den JWT-Token aus dem localStorage
-  // const getAuthToken = (): string | null => {
-  //   const cookie = document.cookie;
-  //   if(!cookie){
-  //     console.log("COOKIE ist leer");
-  //   }
-  //   else{
-  //     console.log("COOKIE", cookie);
-  //   }
-  //   return cookie;
-  // };
-
   // NEUE FUNKTION: API-Endpunkt zum Abrufen des Stundenplans
   const fetchTimeTable = async () => {
     setLoadingData(true);
     setError(null);
 
     try {
-      // const token = getAuthToken();
-      // if (!token) {
-      //   setError("Nicht eingeloggt. Bitte melde dich an.");
-      //   setLoadingData(false);
-      //   return;
-      // }
-
-      const userId = localStorage.getItem('userId');
-      const token = localStorage.getItem('token');
-
       const response = await fetch(`http://localhost:8080/users/timetable`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`, // <- HIER!!!
         },
         credentials: "include",
       });
 
       if (!response.ok) {
+        if (response.status === 401) {
+          throw new Error('Authentication failed. Please sign in again.');
+        }
         throw new Error(`HTTP Error: ${response.status}`);
       }
 
-      const data: TimeTableEntry[] = await response.json();
-      console.log("DATA JSONED:", data);
+      const text = await response.text(); // First get the response as text
+      console.log("Raw response:", text); // Log the raw response
+
+      // If the response is empty, initialize with empty schedule
+      if (!text || text.trim() === '') {
+        console.log("Empty response received, initializing with empty schedule");
+        const newSchedule = { ...schedule };
+        // Reset all cells
+        for (const day of days) {
+          for (const hour of hours) {
+            newSchedule[day][hour] = {
+              subject: "",
+              color: "var(--table-cell-background-color)",
+              colorType: "glossy",
+            };
+          }
+        }
+        setSchedule(newSchedule);
+        return;
+      }
+
+      let data: TimeTableEntry[];
+      try {
+        data = JSON.parse(text);
+      } catch (e) {
+        console.error("Failed to parse JSON:", text);
+        throw new Error('Invalid JSON response from server');
+      }
+
+      console.log("Parsed data:", data);
 
       // Konvertiere API-Daten in das Schedule-Format
-      if (data.length > 0) {
+      if (data && data.length > 0) {
         const newSchedule = { ...schedule };
 
         // Setze zunächst alle Zellen zurück

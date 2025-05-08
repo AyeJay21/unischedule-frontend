@@ -7,13 +7,14 @@ export default function SignIn() {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const getTokenFromCookie = () => {
-    const cookie = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("jwt="));  // "jwt" ist der Name des Cookies
-    return cookie ? cookie.split("=")[1] : null;
-  };
+  // const checkAuthStatus = async() => {
+  //   const response = await fetch("http://localhost:8080/auth/check", {
+  //     credentials: "include"
+  //   })
+  //   return response.ok;
+  // }
 
+  ////////////////////////////////////////////////////////////////////////
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
@@ -25,7 +26,7 @@ export default function SignIn() {
         credentials: "include",
         body: JSON.stringify(user),
       });
-
+      
       console.log("Response status:", response.status);
 
       if (!response.ok) {
@@ -44,10 +45,9 @@ export default function SignIn() {
       localStorage.setItem('userId', data.id);
       localStorage.setItem('username', data.userName);
 
-      const jwtToken = getTokenFromCookie();
-      if (data.token) {
-        localStorage.setItem("token", data.token);
-      }
+      // if (data.token) {
+      //   localStorage.setItem("token", data.token);
+      // }
 
       navigate(`/users/timetable`);
     } catch (error) {
@@ -55,6 +55,7 @@ export default function SignIn() {
       setError("Sign in failed");
     }
   };
+////////////////////////////////////////////////////////////////////////
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
