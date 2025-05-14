@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import Modal from "react-modal";
 import { SketchPicker } from "react-color";
-import "./TimeTable.css";
+import "../../styles/components/TimeTable.css";
+import { useAuth } from "../../context/AuthContext";
 
 type ColorType =
   | "glossy"
@@ -330,6 +331,7 @@ const TimeTable = () => {
   const [error, setError] = useState<string | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const milliSecond = 100;
+  const { logout } = useAuth();
 
   // Bestehende useEffects wie zuvor
   useEffect(() => {
@@ -691,6 +693,20 @@ const TimeTable = () => {
     return subjectColorTypes[subject] || "glossy";
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("userId");
+    localStorage.removeItem("username");
+    localStorage.removeItem("email");
+    localStorage.removeItem("roles");
+
+    const response = fetch("http://localhost:8080/auth/logout",{
+      method: "POST",
+      credentials: "include"
+    })
+
+    window.location.href = "/signin";
+  }
+
   // Render
   return (
     <div>
@@ -822,6 +838,12 @@ const TimeTable = () => {
           <button onClick={() => setIsModalOpen(false)}>Cancel</button>
         </div>
       </Modal>
+
+      <button 
+      className="logoutButton"
+      onClick={handleLogout}>
+        Logout
+      </button>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import "./SignIn.css";
+import "../styles/pages/SignIn.css";
 
 export default function SignIn() {
   const [user, setUser] = useState({ username: "", password: "" });
@@ -16,13 +16,6 @@ export default function SignIn() {
       navigate('/users/timetable');
     }
   }, [navigate]);
-
-  // const checkAuthStatus = async() => {
-  //   const response = await fetch("http://localhost:8080/auth/check", {
-  //     credentials: "include"
-  //   })
-  //   return response.ok;
-  // }
 
   ////////////////////////////////////////////////////////////////////////
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

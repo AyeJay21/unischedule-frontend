@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {useNavigate, Link, Route, Routes, BrowserRouter as Router } from "react-router-dom";
-import TimeTable from "./TimeTable";
-import "./SignUp.css";
+import TimeTable from "../components/timetable/TimeTable";
+import "../styles/pages/SignUp.css";
 
 function SignUp() {
   const [user, setUser] = useState({ email: "", password: "", username: "" });
