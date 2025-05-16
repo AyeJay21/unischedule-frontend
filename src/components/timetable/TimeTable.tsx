@@ -59,264 +59,64 @@ const TimeTable = () => {
   const [schedule, setSchedule] = useState<Record<Day, Record<Hour, CellData>>>(
     {
       Monday: {
-        "8:00-9:00": { subject: "Math", color: "#FF1313", colorType: "glossy" },
-        "9:00-10:00": {
-          subject: "Physics",
-          color: "#0C7FFC",
-          colorType: "glossy",
-        },
-        // ... Rest der Initialisierung wie zuvor
-        "10:00-11:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "11:00-12:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "12:00-13:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "13:00-14:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "14:00-15:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "15:00-16:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "16:00-17:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "17:00-18:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
+        "8:00-9:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "9:00-10:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "10:00-11:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "11:00-12:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "12:00-13:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "13:00-14:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "14:00-15:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "15:00-16:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "16:00-17:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "17:00-18:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
       },
       Tuesday: {
-        "8:00-9:00": {
-          subject: "Chemistry",
-          color: "#F5A623",
-          colorType: "glossy",
-        },
-        "9:00-10:00": {
-          subject: "Biology",
-          color: "#00C400",
-          colorType: "glossy",
-        },
-        "10:00-11:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "11:00-12:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "12:00-13:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "13:00-14:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "14:00-15:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "15:00-16:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "16:00-17:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "17:00-18:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
+        "8:00-9:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "9:00-10:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "10:00-11:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "11:00-12:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "12:00-13:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "13:00-14:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "14:00-15:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "15:00-16:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "16:00-17:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "17:00-18:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
       },
       Wednesday: {
-        // ... Restliche Initialisierung wie zuvor
-        "8:00-9:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "9:00-10:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "10:00-11:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "11:00-12:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "12:00-13:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "13:00-14:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "14:00-15:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "15:00-16:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "16:00-17:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "17:00-18:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
+        "8:00-9:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "9:00-10:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "10:00-11:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "11:00-12:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "12:00-13:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "13:00-14:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "14:00-15:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "15:00-16:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "16:00-17:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "17:00-18:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
       },
       Thursday: {
-        // ... Restliche Initialisierung wie zuvor
-        "8:00-9:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "9:00-10:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "10:00-11:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "11:00-12:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "12:00-13:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "13:00-14:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "14:00-15:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "15:00-16:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "16:00-17:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "17:00-18:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
+        "8:00-9:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "9:00-10:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "10:00-11:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "11:00-12:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "12:00-13:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "13:00-14:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "14:00-15:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "15:00-16:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "16:00-17:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "17:00-18:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
       },
       Friday: {
-        // ... Restliche Initialisierung wie zuvor
-        "8:00-9:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "9:00-10:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "10:00-11:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "11:00-12:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "12:00-13:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "13:00-14:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "14:00-15:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "15:00-16:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "16:00-17:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
-        "17:00-18:00": {
-          subject: "",
-          color: "var(--table-cell-background-color)",
-          colorType: "glossy",
-        },
+        "8:00-9:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "9:00-10:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "10:00-11:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "11:00-12:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "12:00-13:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "13:00-14:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "14:00-15:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "15:00-16:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "16:00-17:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
+        "17:00-18:00": { subject: "", color: "var(--table-cell-background-color)", colorType: "glossy" },
       },
     }
   );
@@ -332,6 +132,8 @@ const TimeTable = () => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const milliSecond = 100;
   const { logout } = useAuth();
+  const [editingCell, setEditingCell] = useState<{ day: Day | null; hour: Hour | null }>({ day: null, hour: null });
+  const [editingValue, setEditingValue] = useState("");
 
   // Bestehende useEffects wie zuvor
   useEffect(() => {
@@ -576,43 +378,8 @@ const TimeTable = () => {
   };
 
   // Add subject - AKTUALISIERT: mit API-Speicherung
-  const handleClick = async (day: Day, hour: Hour) => {
-    if (!isModalOpen) {
-      const subject = prompt("Enter subject:");
-      if (subject !== null && subject.trim() !== "") {
-        // Farbe und Farbtyp festlegen
-        const defaultColor =
-          isSubjectAdded(subject) || schedule[day][hour].color;
-        const defaultColorType = getDefaultColorType(subject) || "glossy";
-
-        // Lokalen Zustand aktualisieren
-        setSchedule((prev) => ({
-          ...prev,
-          [day]: {
-            ...prev[day],
-            [hour]: {
-              subject,
-              color: defaultColor,
-              colorType: defaultColorType,
-            },
-          },
-        }));
-
-        // An API senden
-        const success = await saveTimeTableEntry(
-          day,
-          hour,
-          subject,
-          defaultColor,
-          defaultColorType
-        );
-
-        // Bei Fehler Stundenplan neu laden (um lokalen und Server-Zustand zu synchronisieren)
-        if (!success) {
-          fetchTimeTable();
-        }
-      }
-    }
+  const handleClick = (day: Day, hour: Hour) => {
+    startEditing(day, hour, schedule[day][hour].subject);
   };
 
   // Change the color - wie zuvor
@@ -707,22 +474,84 @@ const TimeTable = () => {
     window.location.href = "/signin";
   }
 
+  const handleClear = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/users/timetable/clear", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" }
+      });
+      if (!response.ok) throw new Error("Fehler beim Leeren des Stundenplans");
+      // Tabelle im Frontend leeren
+      const emptySchedule = { ...schedule };
+      for (const day of days) {
+        for (const hour of hours) {
+          emptySchedule[day][hour] = {
+            subject: "",
+            color: "var(--table-cell-background-color)",
+            colorType: "glossy",
+          };
+        }
+      }
+      setSchedule(emptySchedule);
+    } catch (err) {
+      setError("Fehler beim Leeren: " + (err instanceof Error ? err.message : String(err)));
+    }
+  };
+
+  const startEditing = (day: Day, hour: Hour, value: string) => {
+    setEditingCell({ day, hour });
+    setEditingValue(value);
+  };
+
+  const saveCell = async (day: Day, hour: Hour, value: string) => {
+    setSchedule((prev) => ({
+      ...prev,
+      [day]: {
+        ...prev[day],
+        [hour]: {
+          ...prev[day][hour],
+          subject: value,
+        },
+      },
+    }));
+
+    // Speichere Änderung über API
+    if (value.trim() !== "") {
+      await saveTimeTableEntry(
+        day,
+        hour,
+        value,
+        schedule[day][hour].color,
+        schedule[day][hour].colorType
+      );
+    }
+    setEditingCell({ day: null, hour: null });
+  };
+
   // Render
   return (
-    <div>
+    <div style={{ position: 'relative' }}>
       <div className="darkModeContainer">
-        <h1 className="timeTable">Timetable</h1>
-        <button className="darkModeButton" onClick={toggleDarkMode}>
-          {isDarkMode ? "Light Mode" : "Dark Mode"}
-        </button>
-        {/* NEUER BUTTON: Manuelles Neuladen des Stundenplans */}
-        <button
-          className="refreshButton"
-          onClick={fetchTimeTable}
-          disabled={loadingData}
-        >
-          {loadingData ? "Lädt..." : "Aktualisieren"}
-        </button>
+        <div className="left-controls">
+          <h1 className="timeTable">Timetable</h1>
+          <button className="darkModeButton" onClick={toggleDarkMode}>
+            {isDarkMode ? "Light Mode" : "Dark Mode"}
+          </button>
+          <button
+            className="custom-btn clear-btn"
+            onClick={handleClear}
+          >
+            Clear
+          </button>
+        </div>
+        <div className="right-controls">
+          <button 
+            className="custom-btn logout-btn"
+            onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
       </div>
 
       {error && <div className="error-message">{error}</div>}
@@ -767,7 +596,22 @@ const TimeTable = () => {
                       transition: "all 0.3s ease",
                     }}
                   >
-                    {schedule[day][hour].subject}
+                    {editingCell.day === day && editingCell.hour === hour ? (
+                      <input
+                        type="text"
+                        value={editingValue}
+                        onChange={e => setEditingValue(e.target.value)}
+                        onBlur={() => saveCell(day, hour, editingValue)}
+                        onKeyDown={e => {
+                          if (e.key === 'Enter') saveCell(day, hour, editingValue);
+                        }}
+                        autoFocus
+                      />
+                    ) : (
+                      <span onClick={() => startEditing(day, hour, schedule[day][hour].subject)}>
+                        {schedule[day][hour].subject}
+                      </span>
+                    )}
                   </td>
                 ))}
               </tr>
@@ -838,12 +682,6 @@ const TimeTable = () => {
           <button onClick={() => setIsModalOpen(false)}>Cancel</button>
         </div>
       </Modal>
-
-      <button 
-      className="logoutButton"
-      onClick={handleLogout}>
-        Logout
-      </button>
     </div>
   );
 };

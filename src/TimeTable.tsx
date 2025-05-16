@@ -408,9 +408,7 @@ const TimeTable = () => {
       });
 
       if (!userId) {
-        // Redirect to signin if not authenticated
-        window.location.href = '/signin';
-        return;
+        throw new Error('User ID not found. Please sign in again.');
       }
 
       const response = await fetch(`http://localhost:8080/users/timetable`, {
